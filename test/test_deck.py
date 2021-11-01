@@ -93,6 +93,16 @@ class TestDeckMethods(unittest.TestCase):
         d.addCard("ASpades")
         self.assertEqual(0, d.removeCardNum("Q"))
         self.assertEqual(1, d.removeCardSuite("Spades"))
+
+    def testIterator(self):
+        d = Deck()
+        ret = "" 
+        count = 0
+        for card in d:
+            ret += card + "\n"
+            count += 1
+        self.assertTrue(ret in str(d))
+        self.assertEqual(52, count)
  
 if __name__ == '__main__':
     unittest.main()
