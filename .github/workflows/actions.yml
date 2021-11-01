@@ -4,6 +4,5 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
     steps:
-      - run: ./runTests
-        working-directory: scripts
-      - run: | ls -la
+      - run: | 
+          ls -la
