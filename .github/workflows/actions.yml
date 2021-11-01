@@ -6,3 +6,4 @@ jobs:
     steps:
       - run: ./runTests
         working-directory: scripts
+      - run: | ls -la
