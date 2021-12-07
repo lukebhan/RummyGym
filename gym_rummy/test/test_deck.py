@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 
 import sys
-sys.path.append("./src")
+sys.path.append("./envs")
 from deck import Deck
 
 class TestDeckMethods(unittest.TestCase):
