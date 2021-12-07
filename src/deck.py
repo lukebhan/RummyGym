@@ -24,6 +24,7 @@
 # Suites include Hearts, Spades, Clubs, and Diamonds
 
 import numpy as np
+import random
 
 class Deck:
     def __init__(self, deck = None):
@@ -135,3 +136,8 @@ class Deck:
 
     def __eq__(self, rhs):
         return self.deck == rhs.deck
+
+    def drawRandom(self):
+        choice = random.choice(list(self.deck))
+        self.removeCard(choice)
+        return choice
