@@ -23,6 +23,8 @@
 # 2 = two
 # Suites include Hearts, Spades, Clubs, and Diamonds
 
+import numpy as np
+
 class Deck:
     def __init__(self, deck = None):
         if deck is None:
@@ -100,6 +102,16 @@ class Deck:
                 self.removeCard(str(i)+suite)
                 count += 1
         return count
+    
+    # Matrix form for checking runs and suits. Rows go as hearts, dia, spade, club. 
+    # Columns go ace to king with ace as 1. Binary 1 if card is present, 0 ow.
+    def toNumpy(self):
+        numMap = {'A': 12, '2':0, '3':1, '4':2, '5':3, '6': 4, '7':5, '8': 6, '9': 7, 'T': 8, 'J': 9, 'Q': 10, 'K': 11}
+        suiteMap = {'Hearts': 0, 'Diamonds': 1, 'Spades':2, 'Clubs':3}
+        mat = np.zeros((4, 13))
+        for card in self.deck:
+            mat[suiteMap[card[1:]]][numMap[card[0]]] = 1
+        return mat
 
     # Iterator. We cannot modify while iterating
     def __iter__(self):

@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 
 import sys
 sys.path.append("./src")
@@ -103,6 +104,19 @@ class TestDeckMethods(unittest.TestCase):
             count += 1
         self.assertTrue(ret in str(d))
         self.assertEqual(52, count)
- 
+
+    def testToNumpy(self):
+        d = Deck()
+        self.assertEqual(d.toNumpy().all(), np.full((4, 13), 1).all())
+        d.emptyDeck()
+        self.assertEqual(d.toNumpy().all(), np.zeros((4, 13)).all())
+        d.addCards(["ASpades", "JClubs", "8Hearts", "4Diamonds"])
+        mat = np.zeros((4, 13))
+        mat[1][2] = 1
+        mat[0][6] = 1
+        mat[2][12] = 1
+        mat[3][9] = 1
+        self.assertEqual(d.toNumpy().all(),mat.all())
+
 if __name__ == '__main__':
     unittest.main()
