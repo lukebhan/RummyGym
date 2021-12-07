@@ -100,3 +100,11 @@ class Deck:
                 self.removeCard(str(i)+suite)
                 count += 1
         return count
+
+    # Iterator. We cannot modify while iterating
+    def __iter__(self):
+        self.it = iter(self.deck)
+        return self
+
+    def __next__(self):
+        return next(self.it)
