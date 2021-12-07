@@ -113,6 +113,18 @@ class Deck:
             mat[suiteMap[card[1:]]][numMap[card[0]]] = 1
         return mat
 
+    @classmethod
+    def fromNumpy(cls, mat):
+        deck = {}
+        numMap = {12: 'A', 0:'2', 1:'3', 2:'4', 3:'5', 4: '6', 5:'7', 6:'8', 7: '9', 8: 'T', 9: 'J', 10: 'Q', 11: 'K'}
+        suiteMap = {0:'Hearts', 1:'Diamonds', 2:'Spades', 3:'Clubs'}
+        assert(mat.shape[0] == 4 and mat.shape[1] == 13)
+        for i in range(4):
+            for j in range(13):
+                if mat[i][j] == 1:
+                    deck[numMap[j] + suiteMap[i]] = 1
+        return Deck(deck)
+
     # Iterator. We cannot modify while iterating
     def __iter__(self):
         self.it = iter(self.deck)

@@ -118,6 +118,19 @@ class TestDeckMethods(unittest.TestCase):
         mat[3][9] = 1
         self.assertEqual(d.toNumpy().all(),mat.all())
 
+    def testFromNumpy(self):
+        mat = np.zeros((4, 13))
+        d = Deck()
+        d.emptyDeck()
+        d2 = Deck.fromNumpy(mat)
+        self.assertEqual(d, d2)
+        d.addCards(["ASpades", "JClubs", "8Hearts", "4Diamonds"])
+        mat[0][6]= 1
+        mat[1][2] = 1
+        mat[2][12] = 1
+        mat[3][9] = 1
+        self.assertEqual(d, Deck.fromNumpy(mat))
+
     def testEquals(self):
         d1 = Deck()
         d2 = Deck()
