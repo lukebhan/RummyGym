@@ -1,39 +1,42 @@
 # A set of util methods
+import numpy as np
 
-# Checks if a given set is all the same number. All cards must be member of num
+# Gets all numbered sets
 def checkNum(s):
-    if(len(s) > 4 or len(s) < 3):
-        return False
-    else:
-        for idx, card in enumerate(s):
-            if idx == 0:
-                num = card[0]
-            if card[0] != num:
-                return False
-        return True
+    numMap = {12: 'A', 0:'2', 1:'3', 2:'4', 3:'5', 4:'6', 5:'7', 6:'8',  7:'9', 8:'T', 9:'J', 10:'Q', 11:'K'}
+    suiteMap = {0:'Hearts', 1:'Diamonds', 2:'Spades', 3:'Clubs'}
+    mat = s.toNumpy() 
+    # Iterate over numbers
+    totalSets = []
+    for i in range(mat.shape[1]):
+        count = 0
+        curSet = []
+        for j in range(mat.shape[0]):
+            if mat[j][i] == 1:
+                count += 1
+                curSet.append(numMap[i]+suiteMap[j])
+        if count >= 3:
+            totalSets.append(curSet)
+    return totalSets
 
-# Checks if a given set is all the same suite and consists of a run. Unfortunately takes nlogn time. All cards must be members of run
 def checkRun(s):
-    if(len(s) < 3):
-        return False
-    else:
-        arr = []
-        miniMap = {"2": 2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "T":10, "J": 11, "Q": 12, "K": 13, "A": 14}
-        # check suite
-        for idx, card in enumerate(s):
-            if idx == 0:
-                suite = card[1:]
-            if card[1:] != suite:
-                return False
+    # not as easy since we need to find when there are three or more ones in a row. 
+    numMap = {0:'2', 1:'3', 2:'4', 3:'5', 4:'6', 5:'7', 6:'8',  7:'9', 8:'T', 9:'J', 10:'Q', 11:'K', 12: 'A'}
+    suiteMap = {0:'Hearts', 1:'Diamonds', 2:'Spades', 3:'Clubs'}
+    mat = s.toNumpy() 
+    totalSets = []
+    for i in range(mat.shape[0]):
+        count = 0
+        curSet = []
+        for j in range(mat.shape[1]):
+            if mat[i][j] == 1:
+                count += 1
+                curSet.append(numMap[j] + suiteMap[i])
             else:
-                arr.append(miniMap[card[0]])
-        arr = sorted(arr)
-        # check ordering
-        prevVal = arr[0]
-        for i in range(1, len(arr)):
-            # Handle aces as low
-            if arr[i]-1 == prevVal or (arr[i] == 14 and arr[0] == 2):
-                prevVal = arr[i]
-            else: 
-                return False
-        return True 
+                if count >= 3:
+                    totalSets.append(curSet)
+                count = 0
+                curSet = []
+        if count >= 3:
+            totalSets.append(curSet)
+    return totalSets

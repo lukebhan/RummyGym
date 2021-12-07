@@ -10,47 +10,59 @@ class TestUtilMethods(unittest.TestCase):
         d = Deck()
         d.emptyDeck()
         d.addCards(["2Clubs", "2Spades", "2Diamonds"])
-        self.assertTrue(checkNum(d))
+        self.assertEqual(len(checkNum(d)), 1)
+        for card in ["2Clubs", "2Spades", "2Diamonds"]:
+            self.assertTrue(card in checkNum(d)[0])
         d.addCard("2Hearts")
-        self.assertTrue(checkNum(d))
+        self.assertEqual(len(checkNum(d)), 1)
+        for card in ["2Clubs", "2Spades", "2Diamonds"]:
+            self.assertTrue(card in checkNum(d)[0])
         d.removeCard("2Clubs")
-        self.assertTrue(checkNum(d))
+        self.assertEqual(len(checkNum(d)), 1)
+        for card in ["2Hearts", "2Spades", "2Diamonds"]:
+            self.assertTrue(card in checkNum(d)[0])
         d.removeCard("2Spades")
-        self.assertFalse(checkNum(d))
+        self.assertEqual(len(checkNum(d)), 0)
         d.addCard("3Spades")
-        self.assertFalse(checkNum(d))
-        d.emptyDeck()
-        d.addCards(["QHearts","QSpades", "QDiamonds"])
-        self.assertTrue(checkNum(d))
+        self.assertEqual(len(checkNum(d)), 0)
+        d.addCards(["QHearts","QSpades", "QDiamonds", "2Clubs", "2Spades"])
+        self.assertEqual(len(checkNum(d)), 2)
+        for card in ["2Clubs", "2Spades", "2Diamonds"]:
+            self.assertTrue(card in checkNum(d)[0])
+        for card in ["QHearts", "QSpades", "QDiamonds"]:
+            self.assertTrue(card in checkNum(d)[1])
 
     def testCheckRun(self):
         d = Deck()
         d.emptyDeck()
         d.addCards(["2Clubs", "2Spades"])
-        self.assertFalse(checkRun(d))
-        d.emptyDeck()
-        d.addCards(["2Clubs", "3Spades", "4Clubs"])
-        self.assertFalse(checkRun(d))
+        self.assertEqual(len(checkRun(d)), 0)
+        d.addCards(["3Spades", "4Clubs", "3Clubs"])
+        self.assertEqual(len(checkRun(d)), 1)
+        for card in ["2Clubs",  "3Clubs", "4Clubs"]:
+            self.assertTrue(card in checkRun(d)[0])
         d.removeCard("3Spades")
         d.addCard("5Clubs")
-        self.assertFalse(checkRun(d))
+        self.assertEqual(len(checkRun(d)), 1)
+        for card in ["2Clubs",  "3Clubs", "4Clubs", "5Clubs"]:
+            self.assertTrue(card in checkRun(d)[0])
         d.removeCard("5Clubs")
-        d.addCard("3Clubs")
-        self.assertTrue(checkRun(d))
-        d.emptyDeck()
+        d.addCard("AClubs")
+        self.assertEqual(len(checkRun(d)), 1)
+        for card in ["2Clubs",  "3Clubs", "4Clubs"]:
+            self.assertTrue(card in checkRun(d)[0])
         d.addCards(["JClubs", "QClubs", "KClubs"])
-        self.assertTrue(checkRun(d))
+        self.assertEqual(len(checkRun(d)), 2)
+        for card in ["2Clubs",  "3Clubs", "4Clubs"]:
+            self.assertTrue(card in checkRun(d)[0])
+
+        for card in ["AClubs", "JClubs", "QClubs", "KClubs"]:
+            self.assertTrue(card in checkRun(d)[1])
         d.emptyDeck()
-        d.addCards(["JClubs", "QClubs", "KClubs", "AClubs"])
-        self.assertTrue(checkRun(d))
-        d.emptyDeck()
-        d.addCards(["2Clubs", "3Clubs", "4Clubs", "AClubs"])
-        self.assertTrue(checkRun(d))
-        d.emptyDeck()
-        d.addCards(["5Clubs", "3Clubs", "4Clubs", "AClubs"])
-        self.assertFalse(checkRun(d))
-        d2 = Deck()
-        self.assertFalse(checkRun(d2))
- 
+        d.addCards(["QClubs", "KClubs", "AClubs"])
+        self.assertEqual(len(checkRun(d)), 1)
+        for card in ["AClubs", "QClubs", "KClubs"]:
+            self.assertTrue(card in checkRun(d)[0])
+
 if __name__ == '__main__':
     unittest.main()
