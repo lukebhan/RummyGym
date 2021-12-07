@@ -120,3 +120,6 @@ class Deck:
 
     def __next__(self):
         return next(self.it)
+
+    def __eq__(self, rhs):
+        return self.deck == rhs.deck

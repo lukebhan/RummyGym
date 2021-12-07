@@ -118,5 +118,17 @@ class TestDeckMethods(unittest.TestCase):
         mat[3][9] = 1
         self.assertEqual(d.toNumpy().all(),mat.all())
 
+    def testEquals(self):
+        d1 = Deck()
+        d2 = Deck()
+        self.assertEqual(d1, d2)
+        d1.emptyDeck()
+        d2.emptyDeck()
+        self.assertEqual(d1, d2)
+        d1.addCards(["ASpades", "2Clubs"])
+        d2.addCards(["ASpades", "2Clubs"])
+        self.assertEqual(d1, d2)
+        d2.removeCard("ASpades")
+        self.assertFalse(d1 == d2)
 if __name__ == '__main__':
     unittest.main()
