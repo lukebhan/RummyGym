@@ -3,7 +3,7 @@
 from hand import Hand
 
 class Player():
-    def __init__(self, starterDeck, name=None, verbose=False):
+    def __init__(self, starterDeck, name=None,verbose=False):
         self.name = name
         self.hand = Hand(starterDeck)
         self.score = 0

@@ -12,12 +12,12 @@ from player import Player
 from hand import Hand
 
 class RummyEnv(gym.Env):
-    def __init__(self, verbose):
+    def __init__(self):
         super(RummyEnv, self).__init__()
-        self.verbose = verbose
+        self.verbose = False
 
         # Set spaces
-        self.action_space = spaces.Box(np.full(4, 0, dtype=np.float32), np.full(4, 1, dtype=np.float32))
+        self.action_space = spaces.Box(np.full(2, 0, dtype=np.float32), np.full(2, 1, dtype=np.float32))
         self.observation_space = spaces.Box(np.full(11, 0, dtype=np.float32), np.full(11, 1, dtype=np.float32))
 
         # Create autoencoder. Use relative path
@@ -67,14 +67,14 @@ class RummyEnv(gym.Env):
                 print("Game ended:") 
                 print("Player 1 had: ",len(self.p1.getHand())," cards")
                 print("Player 2 had: ",len(self.p2.getHand())," cards")
-                if (self.p1.getScore()) > (self.p2.getScore()):
-                    self.rew+= 10
+            if (self.p1.getScore()) > (self.p2.getScore()):
+                self.rew += 50
             return True
         else: 
             return False
 
     def reward(self):
         if self.p1.getScore() > self.p2.getScore():
-            self.rew =(self.p1.getScore()-self.p2.getScore() )/ 396
+            self.rew =(self.p1.getScore()-self.p2.getScore())/ 396
         else: 
             self.rew = 0
