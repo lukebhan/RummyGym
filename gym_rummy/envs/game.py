@@ -56,7 +56,10 @@ class RummyEnv(gym.Env):
             tensor = torch.from_numpy(self.p1.getHand().toNumpy().reshape((1, 52))).float()
             reducedDim = self.ae.encode(tensor).numpy().reshape(8)
             self.state = np.concatenate([reducedDim, [len(self.p1.getHand())], [len(self.p2.getHand())],[len(self.discardDeck)]])
-        return self.state, self.reward(), self.terminate(), {"p1score": self.p1.getScore(), "p2score": self.p2.getScore()}
+            # updates self.rew var
+            self.reward()
+            finish = self.terminate()
+        return self.state, self.rew, finish, {"p1score": self.p1.getScore(), "p2score": self.p2.getScore()}
 
     def terminate(self):
         if len(self.p1.getHand()) == 0 or len(self.p2.getHand()) == 0 or len(self.drawDeck) == 0:
@@ -64,11 +67,14 @@ class RummyEnv(gym.Env):
                 print("Game ended:") 
                 print("Player 1 had: ",len(self.p1.getHand())," cards")
                 print("Player 2 had: ",len(self.p2.getHand())," cards")
+                if (self.p1.getScore()) > (self.p2.getScore()):
+                    self.rew+= 10
             return True
         else: 
             return False
 
     def reward(self):
-        reward = (-1/52) * len(self.p1.getHand()) + (1/396) * (self.p1.getScore()) 
-        reward = min(max(0, reward), 1)
-        return reward
+        if self.p1.getScore() > self.p2.getScore():
+            self.rew =(self.p1.getScore()-self.p2.getScore() )/ 396
+        else: 
+            self.rew = 0
