@@ -74,16 +74,17 @@ class Player():
         if len(draw_deck) != 0 or len(discard_deck) != 0:
             if draw_decision > 0.5 or len(draw_deck) == 0:
                 if self.verbose:
-                    print(self.name + " Picks up half the discard deck! (" + str(len(discard_deck)) + " cards)")
+                    print(self.name + " Picks up half the discard deck! (" \
+                    + str(len(discard_deck)) + " cards)")
                 self.pickup_pile(discard_deck)
             else:
-                self.draw_card(drawDeck)
+                self.draw_card(draw_deck)
                 if self.verbose:
                     print(self.name + " Picks up a card from the draw pile!")
 
         self.place_sets()
         discard_decision = round(action[1]*(len(self.hand)-1))
-        if (len(self.hand) != 0):
+        if len(self.hand) != 0:
             self.discard(discard_decision, discard_deck)
         if self.verbose:
             print(self.name + "'s hand looks like:")

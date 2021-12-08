@@ -1,4 +1,4 @@
-"""Generates decks for the environment"""
+"""Generates decks for our environment"""
 
 import sys
 import numpy as np

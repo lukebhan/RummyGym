@@ -25,10 +25,11 @@ class AE(torch.nn.Module):
                 torch.nn.ReLU())
 
     def forward(self, num):
-        """Encodes and decodes x"""
+        """Encodes and decodes num"""
         encoded = self.encoder(num)
         decoded = self.decoder(encoded)
         return decoded
 
-    def encode(self, x):
-        return self.encoder(x)
+    def encode(self, num):
+        """Encodes num"""
+        return self.encoder(num)
