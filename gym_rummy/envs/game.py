@@ -16,16 +16,16 @@ from .encoder.autoencoder import AE #pylint: disable=E0402, C0413,E0401
 class RummyEnv(gym.Env): #pylint: disable=W0223, R0902
     """Rummy environment"""
 
-    def __init__(self, verbose):
+    def __init__(self):
         """Initialized the rummy environment"""
         super(RummyEnv, self).__init__() #pylint: disable=R1725
-        self.verbose = verbose
+        self.verbose = False
 
         # Set spaces
-        self.action_space = spaces.Box(np.full(4, 0, dtype=np.float32), \
-        np.full(4, 1, dtype=np.float32))
-        self.observation_space = spaces.Box(np.full(11, 0, dtype=np.float32), \
-        np.full(11, 1, dtype=np.float32))
+        self.action_space = spaces.Box(np.full(2, 0, \
+        dtype=np.float32), np.full(2, 1, dtype=np.float32))
+        self.observation_space = spaces.Box(np.full(11, 0, \
+        dtype=np.float32), np.full(11, 1, dtype=np.float32))
 
         # Create autoencoder. Use relative path
         self.ae = AE() # pylint: disable=C0103
@@ -96,17 +96,31 @@ class RummyEnv(gym.Env): #pylint: disable=W0223, R0902
         or len(self.player2.get_hand()) == 0 or \
         len(self.draw_deck) == 0:
             if self.verbose:
+<<<<<<< HEAD
                 print("Game ended:")
                 print("Player 1 had: ",len(self.player1.get_hand())," cards")
                 print("Player 2 had: ",len(self.player2.get_hand())," cards")
                 if (self.player1.get_score()) > (self.player2.get_score()):
                     self.rew+= 10
+=======
+                print("Game ended:") 
+                print("Player 1 had: ",len(self.p1.getHand())," cards")
+                print("Player 2 had: ",len(self.p2.getHand())," cards")
+            if (self.p1.getScore()) > (self.p2.getScore()):
+                self.rew += 50
+>>>>>>> 1a029afe4794065a913d0d4ec60d209c6ded0db3
             return True
         return False
 
     def reward(self):
+<<<<<<< HEAD
         """Reward function"""
         if self.player1.get_score() > self.player2.get_score():
             self.rew =(self.player1.get_score()-self.player2.get_score() )/ 396
         else:
+=======
+        if self.p1.getScore() > self.p2.getScore():
+            self.rew =(self.p1.getScore()-self.p2.getScore())/ 396
+        else: 
+>>>>>>> 1a029afe4794065a913d0d4ec60d209c6ded0db3
             self.rew = 0

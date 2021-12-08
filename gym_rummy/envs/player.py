@@ -7,7 +7,7 @@ from hand import Hand #pylint: disable=E0401,C0413
 class Player():
     """Creates a player"""
 
-    def __init__(self, starterDeck, name=None, verbose=False):
+    def __init__(self, starterDeck, name=None,verbose=False):
         """Creates one player"""
         self.name = name
         self.hand = Hand(starterDeck)
