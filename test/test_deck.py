@@ -143,5 +143,18 @@ class TestDeckMethods(unittest.TestCase):
         self.assertEqual(d1, d2)
         d2.removeCard("ASpades")
         self.assertFalse(d1 == d2)
+
+    def testRandomDraw(self):
+        d1 = Deck()
+        self.assertEqual(len(d1), 52)
+        d1.drawRandom()
+        self.assertEqual(len(d1), 51)
+        for i in range(50):
+            d1.drawRandom()
+            self.assertEqual(len(d1), 50-i)
+        d1.drawRandom()
+        self.assertEqual(len(d1), 0)
+        self.assertRaises(IndexError, d1.drawRandom)
+          
 if __name__ == '__main__':
     unittest.main()
