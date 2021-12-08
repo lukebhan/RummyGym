@@ -10,4 +10,4 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install -e .
       - name: Tests
-        run: ./gym_rummy/runTests
+        run: ./runTests
