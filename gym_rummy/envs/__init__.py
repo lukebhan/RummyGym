@@ -1,1 +1,3 @@
-from .game import RummyEnv
+"""Init"""
+
+from .game import RummyEnv #pylint: disable=E0401

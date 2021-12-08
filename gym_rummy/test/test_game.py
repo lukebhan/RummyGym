@@ -1,12 +1,15 @@
-import sys
-sys.path.append('./envs')
+"""Tests the functionality of the game"""
 
 import unittest
-import gym 
-import gym_rummy
+import sys
 import numpy as np
+import gym
+import gym_rummy #pylint: disable=W0611
+sys.path.append('./envs')
 
 class TestGame(unittest.TestCase):
+    """Testing the game class"""
+
     def test_initialize(self):
         """ Make sure reset is working """
         env=gym.make('Rummy-v0', verbose=False)
@@ -20,33 +23,34 @@ class TestGame(unittest.TestCase):
         env=gym.make('Rummy-v0', verbose=False)
         obs = env.reset()
         # Draw from pile and discard last card
-        finish = False;
+        finish = False
         count = 0
         while not finish:
-            nextState, rew, finish, info = env.step(np.random.rand(2))
+            _, _, finish, _ = env.step(np.random.rand(2))
             self.assertEqual(obs[8], 7)
             count += 1
 
     def test_monte_carlo(self):
+        """Test the monte carlo sims"""
         env=gym.make('Rummy-v0', verbose=False)
-        p1 = 0
-        p2 = 0
+        player1 = 0
+        player2 = 0
         length = []
-        for i in range(100):
+        for _ in range(100):
             obs = env.reset()
             # Draw from pile and discard last card
-            finish = False;
+            finish = False
             count = 0
             while not finish:
-                nextState, rew, finish, info = env.step(np.random.rand(2))
+                _, _, finish, info = env.step(np.random.rand(2))
                 self.assertEqual(obs[8], 7)
                 count += 1
             if info["p1score"] > info["p2score"]:
-                p1 += 1
+                player1 += 1
             else:
-                p2 += 1
+                player2 += 1
             length.append(count)
         print("Final Win Counts")
-        print("P1", str(p1))
-        print("P2", str(p2))
+        print("P1", str(player1))
+        print("P2", str(player2))
         print("Avg Length", np.mean(length))

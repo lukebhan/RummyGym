@@ -1,77 +1,91 @@
-# A player class. Contains the players hand as a state, along with their possible actions. 
+"""A player class. Contains the players hand as a state, along with their possible actions."""
 
-from hand import Hand
+import sys
+sys.path.append("./envs")
+from hand import Hand #pylint: disable=E0401,C0413
 
 class Player():
+    """Creates a player"""
+
     def __init__(self, starterDeck, name=None, verbose=False):
+        """Creates one player"""
         self.name = name
         self.hand = Hand(starterDeck)
         self.score = 0
         self.verbose = verbose
 
-    def placeSets(self):
-        scores, sets = self.hand.getSetScores()
-        for score, setVal in zip(scores, sets):
+    def place_sets(self):
+        """Places sets down on table"""
+        scores, sets = self.hand.get_set_scores()
+        for score, set_val in zip(scores, sets):
             self.score += score
-            for card in setVal:
-                self.hand.removeCard(card)
+            for card in set_val:
+                self.hand.remove_card(card)
 
-    def getScore(self):
+    def get_score(self):
+        """Gets current score"""
         return self.score
 
-    def discard(self, index, discardDeck):
+    def discard(self, index, discard_deck):
+        """Discards a card to discard deck"""
         if index >= len(self.hand):
             raise IndexError("Trying to discard a index that is not feasible")
         iterable = iter(self.hand)
         card = next(iterable)
-        for i in range(1, index+1):
+        for _ in range(1, index+1):
             card=next(iterable)
         if self.verbose:
             print(self.name + " Discards " + card)
-        discardDeck.addCard(card)
-        self.hand.removeCard(card)
+        discard_deck.add_card(card)
+        self.hand.remove_card(card)
 
-    def pickupPile(self, discardDeck):
-        length = len(discardDeck)
+    def pickup_pile(self, discard_deck):
+        """Picks up from discard pile"""
+        length = len(discard_deck)
         if length == 1:
             # only one random card to draw
-            card = discardDeck.drawRandom()
-            self.hand.addCard(card)
+            card = discard_deck.draw_random()
+            self.hand.add_card(card)
             return
-        iterable = iter(discardDeck)
-        toDiscard = []
-        for i in range(length//2):
+        iterable = iter(discard_deck)
+        to_discard = []
+        for _ in range(length//2):
             card = next(iterable)
-            self.hand.addCard(card)
-            toDiscard.append(card)
-        for card in toDiscard:
-            discardDeck.removeCard(card)
+            self.hand.add_card(card)
+            to_discard.append(card)
+        for card in to_discard:
+            discard_deck.remove_card(card)
 
-    def drawCard(self, drawDeck):
-        card = drawDeck.drawRandom()
-        self.hand.addCard(card)
+    def draw_card(self, draw_deck):
+        """Draws a card from deck"""
+        card = draw_deck.draw_random()
+        self.hand.add_card(card)
 
-    def getHand(self):
+    def get_hand(self):
+        """Gets hand of player"""
         return self.hand
 
-    def takeTurn(self, action, drawDeck, discardDeck):
+    def take_turn(self, action, draw_deck, discard_deck):
+        """Player takes one turn: draws card or picks up from deck,\
+        places sets down, discards a card"""
         if self.verbose:
             print(self.name + " Turn. Score is ", str(self.score))
-        drawDecision = action[0]
-        if len(drawDeck) != 0 or len(discardDeck) != 0:
-            if drawDecision > 0.5 or len(drawDeck) == 0:
+        draw_decision = action[0]
+        if len(draw_deck) != 0 or len(discard_deck) != 0:
+            if draw_decision > 0.5 or len(draw_deck) == 0:
                 if self.verbose:
-                    print(self.name + " Picks up half the discard deck! (" + str(len(discardDeck)) + " cards)")
-                self.pickupPile(discardDeck)
+                    print(self.name + " Picks up half the discard deck! (" \
+                    + str(len(discard_deck)) + " cards)")
+                self.pickup_pile(discard_deck)
             else:
-                self.drawCard(drawDeck)
+                self.draw_card(draw_deck)
                 if self.verbose:
                     print(self.name + " Picks up a card from the draw pile!")
 
-        self.placeSets()
-        discardDecision = round(action[1]*(len(self.hand)-1))
-        if (len(self.hand) != 0):
-            self.discard(discardDecision, discardDeck)
+        self.place_sets()
+        discard_decision = round(action[1]*(len(self.hand)-1))
+        if len(self.hand) != 0:
+            self.discard(discard_decision, discard_deck)
         if self.verbose:
             print(self.name + "'s hand looks like:")
             print(self.hand)
