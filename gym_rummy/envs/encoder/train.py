@@ -1,31 +1,33 @@
+"""Trains the autoencoder for compressed state space"""
+
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
 import torch
 from autoencoder import AE
-import matplotlib
 matplotlib.use('qt5agg')
-import matplotlib.pyplot as plt
 
 model = AE()
 
 l = torch.nn.MSELoss()
 
-optimizer = torch.optim.Adam(model.parameters(), 
-        lr = 1e-4, 
+optimizer = torch.optim.Adam(model.parameters(),
+        lr = 1e-4,
         weight_decay = 1e-8)
 
 data = np.loadtxt('deckdata.txt')
-tensor = torch.from_numpy(data).float()
+tensor = torch.from_numpy(data).float() #pylint: disable=E1101
 
-epochs = 5000
+EPOCHS = 5000
 outputs = []
 losses = []
-batch_size = 19000
-for epoch in range(epochs):
-    permutation = torch.randperm(tensor.size()[0])
-    running_loss = 0.0
-    for i in range(0, tensor.size()[0], batch_size):
+BATCH_SIZE = 19000
+for epoch in range(EPOCHS):
+    permutation = torch.randperm(tensor.size()[0]) #pylint: disable=E1101
+    RUNNING_LOSS = 0.0
+    for i in range(0, tensor.size()[0], BATCH_SIZE):
         optimizer.zero_grad()
-        indexs = permutation[i:i+batch_size]
+        indexs = permutation[i:i+BATCH_SIZE]
         data = tensor[indexs]
         output = model(data)
 
@@ -34,9 +36,9 @@ for epoch in range(epochs):
         loss.backward()
         optimizer.step()
 
-        running_loss += loss.item()
-    losses.append(running_loss)
-    print(running_loss)
+        RUNNING_LOSS += loss.item()
+    losses.append(RUNNING_LOSS)
+    print(RUNNING_LOSS)
 print("final score:", l(tensor,model(tensor))/tensor.size()[0])
 torch.save(model, 'ae.pt')
 plt.yscale('log')
