@@ -11,8 +11,8 @@ class TestGame(unittest.TestCase):
         """ Make sure reset is working """
         env=gym.make('Rummy-v0', verbose=False)
         obs = env.reset()
-        self.assertEqual(obs[8], 7)
-        self.assertEqual(obs[9], 7)
+        self.assertEqual(obs[8], 5)
+        self.assertEqual(obs[9], 5)
         self.assertEqual(obs[10], 0)
 
     def test_first_step(self):
@@ -24,7 +24,6 @@ class TestGame(unittest.TestCase):
         count = 0
         while not finish:
             nextState, rew, finish, info = env.step(np.random.rand(2))
-            self.assertEqual(obs[8], 7)
             count += 1
 
     def test_monte_carlo(self):
@@ -39,9 +38,8 @@ class TestGame(unittest.TestCase):
             count = 0
             while not finish:
                 nextState, rew, finish, info = env.step(np.random.rand(2))
-                self.assertEqual(obs[8], 7)
                 count += 1
-            if info["p1score"] > info["p2score"]:
+            if info["win"]:
                 p1 += 1
             else:
                 p2 += 1

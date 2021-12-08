@@ -1,6 +1,3 @@
-# NOTE this code is not going to work as env is setup for multi play right now
-
-
 import sys
 sys.path.append('../../gym_rummy/envs')
 
@@ -15,15 +12,15 @@ from stable_baselines3.common.results_plotter import load_results, ts2xy, plot_r
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.env_util import make_vec_env
 
-env = gym.make("Rummy-v0")
+env = gym.make("Rummy-v0", verbose=False)
 
-log_dir = "PPO3/"
+log_dir = "PPOMulti3/"
 os.makedirs(log_dir, exist_ok=True)
 
 env=Monitor(env, log_dir)
 model = PPO("MlpPolicy", env, verbose=1)
 model.learn(250000)
-model.save('modelPPO3')
+model.save('modelMulti3')
 
 # Evaluate the agent
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
@@ -40,13 +37,10 @@ for i in range(1000):
     while not terminate:
         action = model.predict(obs)
         obs, reward, terminate, info = env.step(action[0])
-    if info["p1score"] > info["p2score"]:
+    if info["win"]:
         p1Count += 1
-    elif info["p1score"] == info["p2score"]:
-        tie += 1
-    else: 
+    else:
         p2Count += 1
 
 print("Wins:",p1Count)
 print("Loses:", p2Count)
-print("Ties:", tie)

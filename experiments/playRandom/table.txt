@@ -1,0 +1,11 @@
+PPO Run 1:
+Wins 885 loses 106 ties 9
+mean reward 54.3209596 17.79136
+
+PPO Run2 :
+wins 929 loses 70 ties 1
+mean reward 57.63888 19.18806
+
+PPO run3:
+wins 980 loses 19 ties 1
+mean reward 62.4603536 6.479115

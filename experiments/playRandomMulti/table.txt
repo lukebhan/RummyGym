@@ -1,0 +1,13 @@
+PPO Multi 1 
+mean reward  45.52 15.06
+Wins: 679 Lose: 321
+
+PPO Multi 2
+mean reward 35.417 21.15
+wins: 715, losses 285
+
+PPO Multi 3
+mean reward 45.85 15.25
+wins: 726 loses: 274
+
+

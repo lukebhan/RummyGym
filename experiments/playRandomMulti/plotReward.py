@@ -12,9 +12,9 @@ avgReward3 = []
 boundTop = []
 boundBottom = []
 plotMean = []
-f2 = open('PPO1/monitor.csv', 'r')
-f3 = open('PPO3/monitor.csv', 'r')
-with open('PPO2/monitor.csv') as f:
+f2 = open('PPOMulti1/monitor.csv', 'r')
+f3 = open('PPOMulti2/monitor.csv', 'r')
+with open('PPOMulti3/monitor.csv') as f:
     f.readline()
     f.readline()
     f2.readline()
