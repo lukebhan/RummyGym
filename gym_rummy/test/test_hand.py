@@ -1,7 +1,7 @@
 import unittest
 
 import sys
-sys.path.append("./src")
+sys.path.append("./envs")
 from deck import Deck
 from hand import Hand
 
