@@ -1,1 +1,2 @@
+cd gym_rummy
 python -m unittest
