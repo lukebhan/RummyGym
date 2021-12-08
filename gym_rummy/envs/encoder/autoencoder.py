@@ -29,3 +29,6 @@ class AE(torch.nn.Module):
         encoded = self.encoder(num)
         decoded = self.decoder(encoded)
         return decoded
+
+    def encode(self, x):
+        return self.encoder(x)

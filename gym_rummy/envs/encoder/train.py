@@ -40,7 +40,7 @@ for epoch in range(EPOCHS):
     losses.append(RUNNING_LOSS)
     print(RUNNING_LOSS)
 print("final score:", l(tensor,model(tensor))/tensor.size()[0])
-torch.save(model, 'ae.pt')
+torch.save(model.state_dict(), 'ae.pt')
 plt.yscale('log')
 plt.plot(losses)
 plt.xlabel("Epoch Number")
